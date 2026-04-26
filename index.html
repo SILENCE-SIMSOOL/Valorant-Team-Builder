@@ -250,8 +250,8 @@
 			const div = document.createElement('div');
 			div.className = 'slot';
 			div.innerHTML = `<div class="slot-num">역할 ${i}</div>
-      <div class="field"><select id="ag${i}" onchange="renderPreview()">${agentOpts}</select></div>
-      <div class="field"><select id="pl${i}" onchange="renderPreview()">${popts}</select></div>`;
+			<div class="field"><select id="ag${i}" onchange="renderPreview()">${agentOpts}</select></div>
+			<div class="field"><select id="pl${i}" onchange="renderPreview()">${popts}</select></div>`;
 			container.appendChild(div);
 			if (prev[i - 1]) {
 				document.getElementById('ag' + i).value = prev[i - 1].agent || '';
@@ -345,10 +345,10 @@
 		const el = document.getElementById('saves-list');
 		if (!list.length) { el.innerHTML = '<div style="font-size:12px;color:#3a5060;padding:8px 0">저장된 조합이 없습니다.</div>'; return; }
 		el.innerHTML = list.map(item => `
-    <div class="save-item" onclick="loadSave('${item.map}')">
-      <div><div class="save-item-name">${item.map}</div><div class="save-item-date">${item.date}</div></div>
-      <button class="del-btn" onclick="event.stopPropagation();deleteSave('${item.map}')">×</button>
-    </div>`).join('');
+		<div class="save-item" onclick="loadSave('${item.map}')">
+			<div><div class="save-item-name">${item.map}</div><div class="save-item-date">${item.date}</div></div>
+			<button class="del-btn" onclick="event.stopPropagation();deleteSave('${item.map}')">×</button>
+		</div>`).join('');
 	}
 
 	function loadSave(map) {
@@ -385,20 +385,25 @@
 			const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
 			const s2 = Math.max(W / iw, H / ih);
 			const dw = iw * s2, dh = ih * s2;
-			ctx.save(); ctx.globalAlpha = 0.28;
+			ctx.save();
+			// 배경을 더 잘 보이게 조정 (0.28 -> 0.45)
+			ctx.globalAlpha = 0.45;
 			ctx.drawImage(mapImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
 			ctx.restore();
+
+			// 상단/하단 대비 조절 (농도 완화)
 			const grad = ctx.createLinearGradient(0, 0, 0, H);
-			grad.addColorStop(0, 'rgba(9,13,20,0.7)');
-			grad.addColorStop(0.4, 'rgba(9,13,20,0.35)');
-			grad.addColorStop(1, 'rgba(9,13,20,0.92)');
-			ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+			grad.addColorStop(0, 'rgba(9,13,20,0.6)');
+			grad.addColorStop(0.4, 'rgba(9,13,20,0.2)');
+			grad.addColorStop(1, 'rgba(9,13,20,0.8)');
+			ctx.fillStyle = grad;
+			ctx.fillRect(0, 0, W, H);
 		}
 
 		const F = (size, weight = 400) => `${weight} ${size * sc}px 'Pretendard',sans-serif`;
 
 		ctx.save();
-		ctx.fillStyle = 'rgba(9,13,20,0.72)';
+		ctx.fillStyle = 'rgba(9,13,20,0.6)';
 		ctx.fillRect(0, 0, W, 88 * sc);
 		ctx.restore();
 
@@ -430,7 +435,8 @@
 			const rc = role ? ROLE_COLORS[role] : null;
 
 			ctx.save();
-			ctx.fillStyle = 'rgba(8, 12, 22, 0.82)';
+			// 카드 배경을 약간 투명하게 하여 맵이 비치게 수정 (0.82 -> 0.88)
+			ctx.fillStyle = 'rgba(8, 12, 22, 0.88)';
 			rrect(ctx, cx, cardY, cardW, cardH, 10 * sc); ctx.fill();
 			if (rc) {
 				ctx.strokeStyle = rc.main; ctx.lineWidth = 1.5 * sc;
