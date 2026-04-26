@@ -1,102 +1,352 @@
+<!-- Valorant Team Builder (Created By SimSool) -->
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
-	* { box-sizing: border-box; margin: 0; padding: 0 }
-	body { font-family: 'Pretendard', sans-serif; background: #0a0e13; color: #ece8e1 }
-	.app { padding: 1rem 0; display: grid; grid-template-columns: 320px 1fr; gap: 16px }
-	.panel { background: #0f1620; border: 1px solid #1e2d3d; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 820px }
-	.panel-title { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: #ff4655; text-transform: uppercase; border-bottom: 1px solid #1e2d3d; padding-bottom: 10px }
-	.sec-label { font-size: 10px; color: #4a6070; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-top: 2px }
-	.field { display: flex; flex-direction: column; gap: 4px }
-	.field label { font-size: 10px; color: #5a7080; font-weight: 600; letter-spacing: .08em; text-transform: uppercase }
-	.field input, .field select { background: #080e18; border: 1px solid #1e2d3d; border-radius: 5px; color: #ece8e1; font-size: 12px; font-family: 'Pretendard', sans-serif; padding: 7px 9px; width: 100%; outline: none; transition: border .15s }
-	.field input:focus, .field select:focus { border-color: #ff4655 }
-	.field input::placeholder { color: #2a3a4a }
-	.players-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px }
-	.slot { background: #080e18; border: 1px solid #1e2d3d; border-radius: 6px; padding: 9px 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px }
-	.slot-num { font-size: 9px; color: #ff4655; font-weight: 700; letter-spacing: .12em; grid-column: 1/-1; margin-bottom: 2px; text-transform: uppercase }
-	.btn { padding: 9px 0; border-radius: 5px; font-size: 12px; font-weight: 700; font-family: 'Pretendard', sans-serif; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; border: none; width: 100%; transition: opacity .15s }
-	.btn:hover { opacity: .82 }
-	.btn-export { background: #ff4655; color: #fff }
-	.btn-clear { background: #1a2535; color: #7c8fa0 }
-	.preview-wrap { background: #080e18; border: 1px solid #1e2d3d; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 520px }
-	canvas { display: block; max-width: 100%; height: auto }
-	select option { background: #080e18; color: #ece8e1; font-family: 'Pretendard', sans-serif }
-	optgroup { font-size: 10px }
-	.status { font-size: 11px; color: #3a5060; text-align: center; padding: 4px 0; min-height: 20px }
-	.map-saves { display: flex; flex-direction: column; gap: 4px }
-	.save-item { background: #080e18; border: 1px solid #1e2d3d; border-radius: 5px; padding: 7px 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: border .15s }
-	.save-item:hover { border-color: #ff4655 }
-	.save-item-name { font-size: 12px; font-weight: 600; color: #ece8e1 }
-	.save-item-date { font-size: 10px; color: #4a6070 }
-	.del-btn { background: none; border: none; color: #3a5060; cursor: pointer; font-size: 14px; padding: 0 2px; font-family: 'Pretendard', sans-serif }
-	.del-btn:hover { color: #ff4655 }
-	.tabs { display: flex; gap: 0 }
-	.tab { flex: 1; padding: 8px 0; font-size: 11px; font-weight: 700; font-family: 'Pretendard', sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; border: 1px solid #1e2d3d; background: #080e18; color: #4a6070; text-align: center; transition: all .15s }
-	.tab:first-child { border-radius: 5px 0 0 5px }
-	.tab:last-child { border-radius: 0 5px 5px 0 }
-	.tab.active { background: #ff4655; color: #fff; border-color: #ff4655 }
-	.tab-content { display: none }
-	.tab-content.active { display: flex; flex-direction: column; gap: 12px }
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0
+	}
+
+	body {
+		font-family: 'Pretendard', sans-serif;
+		background: #0a0e13;
+		color: #ece8e1
+	}
+
+	.app {
+		padding: 1rem 0;
+		display: grid;
+		grid-template-columns: 320px 1fr;
+		gap: 16px
+	}
+
+	.panel {
+		background: #0f1620;
+		border: 1px solid #1e2d3d;
+		border-radius: 10px;
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		overflow-y: auto;
+		max-height: 820px
+	}
+
+	.panel-title {
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: .14em;
+		color: #ff4655;
+		text-transform: uppercase;
+		border-bottom: 1px solid #1e2d3d;
+		padding-bottom: 10px
+	}
+
+	.sec-label {
+		font-size: 10px;
+		color: #4a6070;
+		font-weight: 600;
+		letter-spacing: .1em;
+		text-transform: uppercase;
+		margin-top: 2px
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 4px
+	}
+
+	.field label {
+		font-size: 10px;
+		color: #5a7080;
+		font-weight: 600;
+		letter-spacing: .08em;
+		text-transform: uppercase
+	}
+
+	.field input,
+	.field select {
+		background: #080e18;
+		border: 1px solid #1e2d3d;
+		border-radius: 5px;
+		color: #ece8e1;
+		font-size: 12px;
+		font-family: 'Pretendard', sans-serif;
+		padding: 7px 9px;
+		width: 100%;
+		outline: none;
+		transition: border .15s
+	}
+
+	.field input:focus,
+	.field select:focus {
+		border-color: #ff4655
+	}
+
+	.field input::placeholder {
+		color: #2a3a4a
+	}
+
+	.players-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 6px
+	}
+
+	.slot {
+		background: #080e18;
+		border: 1px solid #1e2d3d;
+		border-radius: 6px;
+		padding: 9px 10px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 7px
+	}
+
+	.slot-num {
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: .1em;
+		grid-column: 1/-1;
+		margin-bottom: 3px;
+		text-transform: uppercase;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		min-height: 22px
+	}
+
+	.btn {
+		padding: 9px 0;
+		border-radius: 5px;
+		font-size: 12px;
+		font-weight: 700;
+		font-family: 'Pretendard', sans-serif;
+		letter-spacing: .08em;
+		text-transform: uppercase;
+		cursor: pointer;
+		border: none;
+		width: 100%;
+		transition: opacity .15s
+	}
+
+	.btn:hover {
+		opacity: .82
+	}
+
+	.btn-export {
+		background: #ff4655;
+		color: #fff
+	}
+
+	.btn-clear {
+		background: #1a2535;
+		color: #7c8fa0
+	}
+
+	.preview-wrap {
+		background: #080e18;
+		border: 1px solid #1e2d3d;
+		border-radius: 10px;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 520px
+	}
+
+	canvas {
+		display: block;
+		max-width: 100%;
+		height: auto
+	}
+
+	select option {
+		background: #080e18;
+		color: #ece8e1;
+		font-family: 'Pretendard', sans-serif
+	}
+
+	.status {
+		font-size: 11px;
+		color: #3a5060;
+		text-align: center;
+		padding: 4px 0;
+		min-height: 20px
+	}
+
+	.map-saves {
+		display: flex;
+		flex-direction: column;
+		gap: 4px
+	}
+
+	.save-item {
+		background: #080e18;
+		border: 1px solid #1e2d3d;
+		border-radius: 5px;
+		padding: 7px 10px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		cursor: pointer;
+		transition: border .15s
+	}
+
+	.save-item:hover {
+		border-color: #ff4655
+	}
+
+	.save-item-name {
+		font-size: 12px;
+		font-weight: 600;
+		color: #ece8e1
+	}
+
+	.save-item-date {
+		font-size: 10px;
+		color: #4a6070
+	}
+
+	.del-btn {
+		background: none;
+		border: none;
+		color: #3a5060;
+		cursor: pointer;
+		font-size: 14px;
+		padding: 0 2px;
+		font-family: 'Pretendard', sans-serif
+	}
+
+	.del-btn:hover {
+		color: #ff4655
+	}
+
+	.tabs {
+		display: flex;
+		gap: 0
+	}
+
+	.tab {
+		flex: 1;
+		padding: 8px 0;
+		font-size: 11px;
+		font-weight: 700;
+		font-family: 'Pretendard', sans-serif;
+		letter-spacing: .06em;
+		text-transform: uppercase;
+		cursor: pointer;
+		border: 1px solid #1e2d3d;
+		background: #080e18;
+		color: #4a6070;
+		text-align: center;
+		transition: all .15s
+	}
+
+	.tab:first-child {
+		border-radius: 5px 0 0 5px
+	}
+
+	.tab:last-child {
+		border-radius: 0 5px 5px 0
+	}
+
+	.tab.active {
+		background: #ff4655;
+		color: #fff;
+		border-color: #ff4655
+	}
+
+	.tab-content {
+		display: none
+	}
+
+	.tab-content.active {
+		display: flex;
+		flex-direction: column;
+		gap: 12px
+	}
 </style>
 
 <div class="app">
 	<div class="panel">
 		<div class="panel-title">VALORANT TEAM BUILDER</div>
-
 		<div class="tabs">
 			<div class="tab active" onclick="switchTab('edit')">편집</div>
 			<div class="tab" onclick="switchTab('saves')">저장목록</div>
 		</div>
-
 		<div id="tab-edit" class="tab-content active">
 			<div class="sec-label">맵 선택</div>
 			<div class="field">
 				<select id="mapSel" onchange="onMapChange()">
 					<option value="">맵 선택...</option>
-					<option value="어센트" data-url="https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png">어센트</option>
-					<option value="바인드" data-url="https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png">바인드</option>
-					<option value="헤이븐" data-url="https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png">헤이븐</option>
-					<option value="스플릿" data-url="https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png">스플릿</option>
-					<option value="아이스박스" data-url="https://static.wikia.nocookie.net/valorant/images/1/13/Loading_Screen_Icebox.png">아이스박스</option>
-					<option value="브리즈" data-url="https://static.wikia.nocookie.net/valorant/images/1/10/Loading_Screen_Breeze.png">브리즈</option>
-					<option value="프랙쳐" data-url="https://static.wikia.nocookie.net/valorant/images/f/fc/Loading_Screen_Fracture.png">프랙쳐</option>
-					<option value="펄" data-url="https://static.wikia.nocookie.net/valorant/images/a/af/Loading_Screen_Pearl.png">펄</option>
-					<option value="로터스" data-url="https://static.wikia.nocookie.net/valorant/images/d/d0/Loading_Screen_Lotus.png">로터스</option>
-					<option value="선셋" data-url="https://static.wikia.nocookie.net/valorant/images/5/5c/Loading_Screen_Sunset.png">선셋</option>
-					<option value="어비스" data-url="https://static.wikia.nocookie.net/valorant/images/6/61/Loading_Screen_Abyss.png">어비스</option>
+					<option value="어센트"
+						data-url="https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png">어센트
+					</option>
+					<option value="바인드"
+						data-url="https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png">바인드
+					</option>
+					<option value="헤이븐"
+						data-url="https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png">헤이븐
+					</option>
+					<option value="스플릿"
+						data-url="https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png">스플릿
+					</option>
+					<option value="아이스박스"
+						data-url="https://static.wikia.nocookie.net/valorant/images/1/13/Loading_Screen_Icebox.png">
+						아이스박스</option>
+					<option value="브리즈"
+						data-url="https://static.wikia.nocookie.net/valorant/images/1/10/Loading_Screen_Breeze.png">브리즈
+					</option>
+					<option value="프랙쳐"
+						data-url="https://static.wikia.nocookie.net/valorant/images/f/fc/Loading_Screen_Fracture.png">
+						프랙쳐</option>
+					<option value="펄"
+						data-url="https://static.wikia.nocookie.net/valorant/images/a/af/Loading_Screen_Pearl.png">펄
+					</option>
+					<option value="로터스"
+						data-url="https://static.wikia.nocookie.net/valorant/images/d/d0/Loading_Screen_Lotus.png">로터스
+					</option>
+					<option value="선셋"
+						data-url="https://static.wikia.nocookie.net/valorant/images/5/5c/Loading_Screen_Sunset.png">선셋
+					</option>
+					<option value="어비스"
+						data-url="https://static.wikia.nocookie.net/valorant/images/6/61/Loading_Screen_Abyss.png">어비스
+					</option>
 				</select>
 			</div>
-
 			<div class="field">
 				<label>맵 이미지 URL (직접 입력)</label>
 				<input type="text" id="mapUrl" placeholder="https://..." oninput="loadMapFromUrl(this.value)">
 			</div>
-
 			<div class="sec-label">플레이어 이름</div>
 			<div class="players-grid">
-				<div class="field"><label>P1</label><input type="text" id="p1" placeholder="이름" oninput="savePlayers();rebuildSlots()"></div>
-				<div class="field"><label>P2</label><input type="text" id="p2" placeholder="이름" oninput="savePlayers();rebuildSlots()"></div>
-				<div class="field"><label>P3</label><input type="text" id="p3" placeholder="이름" oninput="savePlayers();rebuildSlots()"></div>
-				<div class="field"><label>P4</label><input type="text" id="p4" placeholder="이름" oninput="savePlayers();rebuildSlots()"></div>
-				<div class="field"><label>P5</label><input type="text" id="p5" placeholder="이름" oninput="savePlayers();rebuildSlots()"></div>
+				<div class="field"><label>P1</label><input type="text" id="p1" placeholder="이름"
+						oninput="savePlayers();rebuildSlots()"></div>
+				<div class="field"><label>P2</label><input type="text" id="p2" placeholder="이름"
+						oninput="savePlayers();rebuildSlots()"></div>
+				<div class="field"><label>P3</label><input type="text" id="p3" placeholder="이름"
+						oninput="savePlayers();rebuildSlots()"></div>
+				<div class="field"><label>P4</label><input type="text" id="p4" placeholder="이름"
+						oninput="savePlayers();rebuildSlots()"></div>
+				<div class="field"><label>P5</label><input type="text" id="p5" placeholder="이름"
+						oninput="savePlayers();rebuildSlots()"></div>
 			</div>
-
 			<div class="sec-label">역할 배정 <span id="cur-map-label"></span></div>
 			<div id="slots" style="display:flex;flex-direction:column;gap:6px"></div>
-
 			<div style="display:flex;flex-direction:column;gap:7px;margin-top:4px">
 				<button class="btn btn-export" onclick="saveCurrentMap()">현재 맵 저장</button>
-				<button class="btn btn-export" style="background:#1a6fff" onclick="renderAndExport()">이미지 저장 (PNG)</button>
+				<button class="btn btn-export" style="background:#1a6fff" onclick="renderAndExport()">이미지 저장
+					(PNG)</button>
 				<button class="btn btn-clear" onclick="clearSlots()">배정 초기화</button>
 			</div>
 		</div>
-
 		<div id="tab-saves" class="tab-content">
 			<div class="sec-label">저장된 맵 조합</div>
 			<div id="saves-list" class="map-saves"></div>
 		</div>
 	</div>
-
 	<div style="display:flex;flex-direction:column;gap:8px">
 		<div class="preview-wrap"><canvas id="cv"></canvas></div>
 		<div id="statusMsg" class="status"></div>
@@ -111,16 +361,17 @@
 		"전략가": ["믹스", "바이퍼", "브림스톤", "아스트라", "오멘", "클로브", "하버"]
 	};
 	const ROLE_COLORS = {
-		"타격대": { main: "#E84040", light: "rgba(232,64,64,0.18)", glow: "rgba(232,64,64,0.5)" },
-		"척후대": { main: "#3A8FFF", light: "rgba(58,143,255,0.18)", glow: "rgba(58,143,255,0.5)" },
-		"감시자": { main: "#F5C518", light: "rgba(245,197,24,0.18)", glow: "rgba(245,197,24,0.5)" },
-		"전략가": { main: "#3ECF6A", light: "rgba(62,207,106,0.18)", glow: "rgba(62,207,106,0.5)" }
+		"타격대": { main: "#E84040", light: "rgba(232,64,64,0.18)" },
+		"척후대": { main: "#3A8FFF", light: "rgba(58,143,255,0.18)" },
+		"감시자": { main: "#F5C518", light: "rgba(245,197,24,0.18)" },
+		"전략가": { main: "#3ECF6A", light: "rgba(62,207,106,0.18)" }
 	};
+	const BASE_ICON = "https://static.wikia.nocookie.net/valorant/images/";
 	const ROLE_ICONS = {
-		"타격대": "https://media.valorant-api.com/roles/d11e304d-424b-8557-91f6-95906d2d4157/displayicon.png",
-		"척후대": "https://media.valorant-api.com/roles/f94c3b30-42be-e959-889c-5aa313dba261/displayicon.png",
-		"감시자": "https://media.valorant-api.com/roles/598ca183-4a68-e291-0335-71874b1c3121/displayicon.png",
-		"전략가": "https://media.valorant-api.com/roles/4ee40553-8d35-31a3-ad60-24422e49c71b/displayicon.png"
+		"타격대": BASE_ICON + "f/fd/DuelistClassSymbol.png/revision/latest?cb=20200408043920",
+		"척후대": BASE_ICON + "7/77/InitiatorClassSymbol.png/revision/latest?cb=20200408043927",
+		"감시자": BASE_ICON + "4/43/SentinelClassSymbol.png/revision/latest?cb=20200408043934",
+		"전략가": BASE_ICON + "0/04/ControllerClassSymbol.png/revision/latest?cb=20200408043911"
 	};
 	const ROLE_OF = {};
 	Object.entries(AGENTS).forEach(([r, arr]) => arr.forEach(a => ROLE_OF[a] = r));
@@ -128,7 +379,6 @@
 	const BASE = "https://media.valorant-api.com/agents/";
 	const FP = "/fullportrait.png";
 	let AGENT_PORTRAITS = {};
-
 	const KO_TO_EN = {
 		"네온": "Neon", "레이나": "Reyna", "레이즈": "Raze", "아이소": "Iso", "요루": "Yoru",
 		"웨이레이": "Waylay", "제트": "Jett", "피닉스": "Phoenix", "게코": "Gekko", "브리치": "Breach",
@@ -150,28 +400,22 @@
 				byEn[a.developerName?.toLowerCase()] = url;
 				byEn[a.displayName?.toLowerCase()] = url;
 			});
-			const allAgents = Object.values(AGENTS).flat();
-			allAgents.forEach(koName => {
+			Object.values(AGENTS).flat().forEach(koName => {
 				if (byKo[koName]) { AGENT_PORTRAITS[koName] = byKo[koName]; return; }
 				const en = KO_TO_EN[koName];
-				if (en && byEn[en.toLowerCase()]) { AGENT_PORTRAITS[koName] = byEn[en.toLowerCase()]; return; }
+				if (en && byEn[en.toLowerCase()]) { AGENT_PORTRAITS[koName] = byEn[en.toLowerCase()]; }
 			});
 			setStatus(""); renderPreview();
-		} catch (e) {
-			setStatus("요원 이미지 API 연결 실패");
-			console.warn(e);
-		}
+		} catch (e) { setStatus("요원 이미지 API 연결 실패"); }
 	}
 
-	let mapImg = null;
-	let curMap = "";
-	const roleIconImgs = {};
-	const agentImgCache = {};
+	let mapImg = null, curMap = "";
+	const roleIconImgs = {}, agentImgCache = {};
 
 	function loadRoleIcons() {
 		Object.entries(ROLE_ICONS).forEach(([role, url]) => {
-			const img = new Image(); img.crossOrigin = 'anonymous';
-			img.onload = () => { roleIconImgs[role] = img; renderPreview() };
+			const img = new Image();
+			img.onload = () => { roleIconImgs[role] = img; renderPreview(); };
 			img.src = url;
 		});
 	}
@@ -181,61 +425,94 @@
 		if (agentImgCache[agentName]) return agentImgCache[agentName];
 		const url = AGENT_PORTRAITS[agentName];
 		if (!url) return null;
-		const img = new Image();
-		img.crossOrigin = 'anonymous';
+		const img = new Image(); img.crossOrigin = 'anonymous';
 		agentImgCache[agentName] = { img, loaded: false };
 		img.onload = () => { agentImgCache[agentName].loaded = true; renderPreview(); };
-		img.onerror = () => { agentImgCache[agentName].error = true; };
 		img.src = url;
 		return agentImgCache[agentName];
 	}
 
 	function getPlayers() {
-		return [1, 2, 3, 4, 5].map(i => {
-			const v = document.getElementById('p' + i)?.value.trim();
-			return v || `플레이어 ${i}`;
-		});
+		return [1, 2, 3, 4, 5].map(i => document.getElementById('p' + i)?.value.trim() || `플레이어 ${i}`);
 	}
+
 	function savePlayers() {
-		const d = {}; [1, 2, 3, 4, 5].forEach(i => d['p' + i] = document.getElementById('p' + i)?.value || '');
-		try { localStorage.setItem('valo_players', JSON.stringify(d)) } catch { }
+		const d = {};[1, 2, 3, 4, 5].forEach(i => d['p' + i] = document.getElementById('p' + i)?.value || '');
+		try {
+			localStorage.setItem('valo_players', JSON.stringify(d))
+		} catch { }
 	}
+
 	function loadPlayers() {
 		try {
 			const d = JSON.parse(localStorage.getItem('valo_players') || '{}');
-			[1, 2, 3, 4, 5].forEach(i => { const el = document.getElementById('p' + i); if (el && d['p' + i]) el.value = d['p' + i] });
+			[1, 2, 3, 4, 5].forEach(i => { const el = document.getElementById('p' + i); if (el && d['p' + i]) el.value = d['p' + i]; });
 		} catch { }
 	}
 
 	function getMapData(map) {
-		try { return JSON.parse(localStorage.getItem('valo_map_' + map) || 'null') } catch { return null }
+		try {
+			return JSON.parse(localStorage.getItem('valo_map_' + map) || 'null')
+		} catch { return null }
 	}
+
 	function saveMapData(map, data) {
-		try { localStorage.setItem('valo_map_' + map, JSON.stringify(data)) } catch { }
+		try {
+			localStorage.setItem('valo_map_' + map, JSON.stringify(data))
+		} catch { }
 	}
+
 	function getAllSavedMaps() {
-		try { return JSON.parse(localStorage.getItem('valo_saved_list') || '[]') } catch { return [] }
+		try {
+			return JSON.parse(localStorage.getItem('valo_saved_list') || '[]')
+		} catch { return [] }
 	}
+
 	function addToSavedList(map) {
-		const list = getAllSavedMaps();
-		if (!list.find(x => x.map === map)) { list.push({ map, date: new Date().toLocaleDateString('ko-KR') }) }
-		else { const idx = list.findIndex(x => x.map === map); list[idx].date = new Date().toLocaleDateString('ko-KR') }
-		try { localStorage.setItem('valo_saved_list', JSON.stringify(list)) } catch { }
+		const list = getAllSavedMaps(), idx = list.findIndex(x => x.map === map), entry = { map, date: new Date().toLocaleDateString('ko-KR') };
+		if (idx === -1) list.push(entry); else list[idx] = entry;
+		try {
+			localStorage.setItem('valo_saved_list', JSON.stringify(list))
+		} catch { }
 	}
+
 	function removeSavedMap(map) {
-		let list = getAllSavedMaps().filter(x => x.map !== map);
+		const list = getAllSavedMaps().filter(x => x.map !== map);
 		try { localStorage.setItem('valo_saved_list', JSON.stringify(list)); localStorage.removeItem('valo_map_' + map) } catch { }
 	}
 
 	function buildAgentOptions() {
 		let html = '<option value="">요원 선택</option>';
 		Object.entries(AGENTS).forEach(([role, arr]) => {
-			const c = ROLE_COLORS[role].main;
-			html += `<optgroup label="── ${role} ──" style="color:${c}">`;
+			html += `<optgroup label="── ${role} ──" style="color:${ROLE_COLORS[role].main}">`;
 			arr.forEach(a => html += `<option value="${a}">${a}</option>`);
 			html += '</optgroup>';
 		});
 		return html;
+	}
+
+	function pad2(n) {
+		return String(n).padStart(2, '0');
+	}
+
+	function updateRoleLabel(i) {
+		const agSel = document.getElementById('ag' + i);
+		const labelEl = document.getElementById('role-label-' + i);
+		if (!agSel || !labelEl) return;
+		const agent = agSel.value;
+		const role = agent ? ROLE_OF[agent] : null;
+		const rc = role ? ROLE_COLORS[role] : null;
+		const iconUrl = role ? ROLE_ICONS[role] : null;
+
+		if (role && iconUrl) {
+			labelEl.innerHTML = `
+				<img src="${iconUrl}" style="width:14px;height:14px;object-fit:contain;filter:brightness(10)" alt="">
+				<span style="color:${rc.main};font-size:10px;font-weight:700;letter-spacing:.1em">${role}</span>`;
+		} else {
+			labelEl.innerHTML = `
+				<span style="color:#ff4655;font-size:11px;font-weight:700">${pad2(i)}</span>
+				<span style="color:#3a5060;font-size:10px;font-weight:600;letter-spacing:.1em">SLOT</span>`;
+		}
 	}
 
 	function rebuildSlots() {
@@ -249,26 +526,23 @@
 			players.forEach(p => popts += `<option value="${p}">${p}</option>`);
 			const div = document.createElement('div');
 			div.className = 'slot';
-			div.innerHTML = `<div class="slot-num">역할 ${i}</div>
-			<div class="field"><select id="ag${i}" onchange="renderPreview()">${agentOpts}</select></div>
-			<div class="field"><select id="pl${i}" onchange="renderPreview()">${popts}</select></div>`;
+			div.innerHTML = `
+				<div class="slot-num" id="role-label-${i}"></div>
+				<div class="field"><select id="ag${i}" onchange="updateRoleLabel(${i});renderPreview()">${agentOpts}</select></div>
+				<div class="field"><select id="pl${i}" onchange="renderPreview()">${popts}</select></div>`;
 			container.appendChild(div);
 			if (prev[i - 1]) {
 				document.getElementById('ag' + i).value = prev[i - 1].agent || '';
 				document.getElementById('pl' + i).value = prev[i - 1].player || '';
 			}
+			updateRoleLabel(i);
 		}
 		renderPreview();
 	}
 
 	function getSlotValues() {
 		const res = [];
-		for (let i = 1; i <= 5; i++) {
-			res.push({
-				agent: document.getElementById('ag' + i)?.value || '',
-				player: document.getElementById('pl' + i)?.value || ''
-			});
-		}
+		for (let i = 1; i <= 5; i++) res.push({ agent: document.getElementById('ag' + i)?.value || '', player: document.getElementById('pl' + i)?.value || '' });
 		return res;
 	}
 
@@ -277,31 +551,24 @@
 		const players = getPlayers();
 		for (let i = 1; i <= 5; i++) {
 			const sel = document.getElementById('pl' + i);
-			if (sel) {
-				let popts = '<option value="">플레이어 선택</option>';
-				players.forEach(p => popts += `<option value="${p}">${p}</option>`);
-				sel.innerHTML = popts;
-			}
+			if (sel) { let p = '<option value="">플레이어 선택</option>'; players.forEach(p2 => p += `<option value="${p2}">${p2}</option>`); sel.innerHTML = p; }
 			if (data[i - 1]) {
-				const a = document.getElementById('ag' + i);
-				const p = document.getElementById('pl' + i);
+				const a = document.getElementById('ag' + i), p = document.getElementById('pl' + i);
 				if (a) a.value = data[i - 1].agent || '';
 				if (p) p.value = data[i - 1].player || '';
 			}
+			updateRoleLabel(i);
 		}
 	}
 
 	function onMapChange() {
-		const sel = document.getElementById('mapSel');
-		const opt = sel.options[sel.selectedIndex];
+		const sel = document.getElementById('mapSel'), opt = sel.options[sel.selectedIndex];
 		curMap = sel.value;
 		document.getElementById('cur-map-label').textContent = curMap ? `— ${curMap}` : '';
 		const url = opt?.getAttribute('data-url') || '';
-		if (url) { document.getElementById('mapUrl').value = url; loadMapFromUrl(url); }
-		else { mapImg = null; renderPreview(); }
+		if (url) { document.getElementById('mapUrl').value = url; loadMapFromUrl(url); } else { mapImg = null; renderPreview(); }
 		const saved = getMapData(curMap);
-		if (saved) applySlotValues(saved);
-		else clearSlotsOnly();
+		if (saved) applySlotValues(saved); else clearSlotsOnly();
 	}
 
 	function loadMapFromUrl(url) {
@@ -309,20 +576,22 @@
 		setStatus('맵 이미지 로딩 중...');
 		const img = new Image(); img.crossOrigin = 'anonymous';
 		img.onload = () => { mapImg = img; renderPreview(); setStatus(''); };
-		img.onerror = () => { setStatus('이미지 로드 실패 — 다른 URL을 시도해보세요.'); mapImg = null; renderPreview(); };
+		img.onerror = () => { setStatus('이미지 로드 실패'); mapImg = null; renderPreview(); };
 		img.src = url + '?' + Date.now();
 	}
 
 	function saveCurrentMap() {
 		if (!curMap) { setStatus('먼저 맵을 선택해주세요.'); return; }
-		saveMapData(curMap, getSlotValues());
-		addToSavedList(curMap);
-		renderSavesList();
-		setStatus(`"${curMap}" 조합 저장 완료!`);
-		setTimeout(() => setStatus(''), 2500);
+		saveMapData(curMap, getSlotValues()); addToSavedList(curMap); renderSavesList();
+		setStatus(`"${curMap}" 조합 저장 완료!`); setTimeout(() => setStatus(''), 2500);
 	}
 
-	function clearSlots() { clearSlotsOnly(); renderPreview(); }
+	function clearSlots() {
+		clearSlotsOnly();
+		for (let i = 1; i <= 5; i++) updateRoleLabel(i);
+		renderPreview();
+	}
+
 	function clearSlotsOnly() {
 		for (let i = 1; i <= 5; i++) {
 			const a = document.getElementById('ag' + i), p = document.getElementById('pl' + i);
@@ -330,7 +599,9 @@
 		}
 	}
 
-	function setStatus(m) { document.getElementById('statusMsg').textContent = m; }
+	function setStatus(m) {
+		document.getElementById('statusMsg').textContent = m;
+	}
 
 	function switchTab(name) {
 		['edit', 'saves'].forEach(n => {
@@ -341,28 +612,26 @@
 	}
 
 	function renderSavesList() {
-		const list = getAllSavedMaps();
-		const el = document.getElementById('saves-list');
-		if (!list.length) { el.innerHTML = '<div style="font-size:12px;color:#3a5060;padding:8px 0">저장된 조합이 없습니다.</div>'; return; }
+		const list = getAllSavedMaps(), el = document.getElementById('saves-list');
+		if (!list.length) {
+			el.innerHTML = '<div style="font-size:12px;color:#3a5060;padding:8px 0">저장된 조합이 없습니다.</div>';
+			return;
+		}
 		el.innerHTML = list.map(item => `
-		<div class="save-item" onclick="loadSave('${item.map}')">
-			<div><div class="save-item-name">${item.map}</div><div class="save-item-date">${item.date}</div></div>
-			<button class="del-btn" onclick="event.stopPropagation();deleteSave('${item.map}')">×</button>
-		</div>`).join('');
+			<div class="save-item" onclick="loadSave('${item.map}')">
+				<div><div class="save-item-name">${item.map}</div><div class="save-item-date">${item.date}</div></div>
+				<button class="del-btn" onclick="event.stopPropagation();deleteSave('${item.map}')">×</button>
+			</div>`).join('');
 	}
 
 	function loadSave(map) {
 		switchTab('edit');
-		const sel = document.getElementById('mapSel');
-		sel.value = map;
-		curMap = map;
+		const sel = document.getElementById('mapSel'); sel.value = map; curMap = map;
 		document.getElementById('cur-map-label').textContent = `— ${map}`;
 		const opt = [...sel.options].find(o => o.value === map);
 		const url = opt?.getAttribute('data-url') || '';
 		if (url) { document.getElementById('mapUrl').value = url; loadMapFromUrl(url); }
-		const saved = getMapData(map);
-		rebuildSlots();
-		if (saved) applySlotValues(saved);
+		const saved = getMapData(map); rebuildSlots(); if (saved) applySlotValues(saved);
 	}
 
 	function deleteSave(map) {
@@ -370,63 +639,40 @@
 		setStatus(`"${map}" 조합 삭제됨`); setTimeout(() => setStatus(''), 2000);
 	}
 
-	function renderPreview() { draw(document.getElementById('cv'), 1); }
+	function renderPreview() {
+		draw(document.getElementById('cv'), 1);
+	}
 
 	function draw(cv, sc) {
 		const W = 1280 * sc, H = 640 * sc;
 		cv.width = W; cv.height = H;
 		const ctx = cv.getContext('2d');
 		ctx.clearRect(0, 0, W, H);
-
-		ctx.fillStyle = '#090d14';
-		ctx.fillRect(0, 0, W, H);
+		ctx.fillStyle = '#090d14'; ctx.fillRect(0, 0, W, H);
 
 		if (mapImg) {
 			const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
-			const s2 = Math.max(W / iw, H / ih);
-			const dw = iw * s2, dh = ih * s2;
-			ctx.save();
-			// 배경을 더 잘 보이게 조정 (0.28 -> 0.45)
-			ctx.globalAlpha = 0.45;
-			ctx.drawImage(mapImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
-			ctx.restore();
-
-			// 상단/하단 대비 조절 (농도 완화)
+			const s2 = Math.max(W / iw, H / ih), dw = iw * s2, dh = ih * s2;
+			ctx.save(); ctx.globalAlpha = 0.45;
+			ctx.drawImage(mapImg, (W - dw) / 2, (H - dh) / 2, dw, dh); ctx.restore();
 			const grad = ctx.createLinearGradient(0, 0, 0, H);
-			grad.addColorStop(0, 'rgba(9,13,20,0.6)');
-			grad.addColorStop(0.4, 'rgba(9,13,20,0.2)');
-			grad.addColorStop(1, 'rgba(9,13,20,0.8)');
-			ctx.fillStyle = grad;
-			ctx.fillRect(0, 0, W, H);
+			grad.addColorStop(0, 'rgba(9,13,20,0.6)'); grad.addColorStop(0.4, 'rgba(9,13,20,0.2)'); grad.addColorStop(1, 'rgba(9,13,20,0.8)');
+			ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 		}
 
 		const F = (size, weight = 400) => `${weight} ${size * sc}px 'Pretendard',sans-serif`;
 
-		ctx.save();
-		ctx.fillStyle = 'rgba(9,13,20,0.6)';
-		ctx.fillRect(0, 0, W, 88 * sc);
-		ctx.restore();
-
+		ctx.save(); ctx.fillStyle = 'rgba(9,13,20,0.6)'; ctx.fillRect(0, 0, W, 88 * sc); ctx.restore();
 		ctx.strokeStyle = '#ff4655'; ctx.lineWidth = 2 * sc;
 		ctx.beginPath(); ctx.moveTo(0, 88 * sc); ctx.lineTo(W, 88 * sc); ctx.stroke();
-
-		const mn = (curMap || document.getElementById('mapSel')?.value || 'MAP').toUpperCase();
-		ctx.font = F(46, 800); ctx.fillStyle = '#ffffff';
-		ctx.fillText(mn, 44 * sc, 62 * sc);
-
-		ctx.font = F(12, 500); ctx.fillStyle = '#ff4655';
-		ctx.letterSpacing = (3 * sc) + 'px';
-		ctx.fillText('TEAM COMPOSITION', 46 * sc, 80 * sc);
-		ctx.letterSpacing = '0px';
+		ctx.font = F(46, 800); ctx.fillStyle = '#ffffff'; ctx.fillText((curMap || 'MAP').toUpperCase(), 44 * sc, 62 * sc);
+		ctx.font = F(12, 500); ctx.fillStyle = '#ff4655'; ctx.letterSpacing = (3 * sc) + 'px';
+		ctx.fillText('TEAM COMPOSITION', 46 * sc, 80 * sc); ctx.letterSpacing = '0px';
 
 		const slots = getSlotValues();
-		const N = 5;
-		const padX = 32 * sc;
-		const availW = W - padX * 2;
-		const cardW = availW / N - 10 * sc;
-		const cardGap = (availW - cardW * N) / (N - 1);
-		const cardH = 460 * sc;
-		const cardY = 108 * sc;
+		const N = 5, padX = 32 * sc, availW = W - padX * 2;
+		const cardW = availW / N - 10 * sc, cardGap = (availW - cardW * N) / (N - 1);
+		const cardH = 460 * sc, cardY = 108 * sc;
 
 		for (let i = 0; i < N; i++) {
 			const { agent, player } = slots[i];
@@ -435,113 +681,88 @@
 			const rc = role ? ROLE_COLORS[role] : null;
 
 			ctx.save();
-			// 카드 배경을 약간 투명하게 하여 맵이 비치게 수정 (0.82 -> 0.88)
-			ctx.fillStyle = 'rgba(8, 12, 22, 0.88)';
+			ctx.fillStyle = 'rgba(8,12,22,0.88)';
 			rrect(ctx, cx, cardY, cardW, cardH, 10 * sc); ctx.fill();
 			if (rc) {
 				ctx.strokeStyle = rc.main; ctx.lineWidth = 1.5 * sc;
 				rrect(ctx, cx, cardY, cardW, cardH, 10 * sc); ctx.stroke();
 				ctx.fillStyle = rc.light;
-				rrect(ctx, cx, cardY, cardW, 46 * sc, { tl: 10 * sc, tr: 10 * sc, bl: 0, br: 0 }); ctx.fill();
+				rrect(ctx, cx, cardY, cardW, 50 * sc, { tl: 10 * sc, tr: 10 * sc, bl: 0, br: 0 }); ctx.fill();
 			} else {
 				ctx.strokeStyle = '#1e2d3d'; ctx.lineWidth = 1 * sc;
 				rrect(ctx, cx, cardY, cardW, cardH, 10 * sc); ctx.stroke();
-				ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-				rrect(ctx, cx, cardY, cardW, 46 * sc, { tl: 10 * sc, tr: 10 * sc, bl: 0, br: 0 }); ctx.fill();
+				ctx.fillStyle = 'rgba(255,255,255,0.04)';
+				rrect(ctx, cx, cardY, cardW, 50 * sc, { tl: 10 * sc, tr: 10 * sc, bl: 0, br: 0 }); ctx.fill();
 			}
 			ctx.restore();
 
+			const headerY = cardY + 30 * sc;
+			const iconSize = 20 * sc;
+			let curX = cx + 14 * sc;
+
 			const iconImg = role ? roleIconImgs[role] : null;
-			const iconSize = 22 * sc;
-			const roleX = cx + 14 * sc;
-			const roleY = cardY + 13 * sc;
-			if (iconImg) {
-				try { ctx.drawImage(iconImg, roleX, roleY, iconSize, iconSize); } catch { }
+
+			if (role) {
+				if (iconImg) {
+					ctx.drawImage(iconImg, curX, headerY - iconSize * 0.75, iconSize, iconSize);
+					curX += iconSize + 7 * sc;
+				}
+				ctx.font = F(11, 700); ctx.letterSpacing = (1.2 * sc) + 'px';
+				ctx.fillStyle = rc.main;
+				ctx.fillText(role.toUpperCase(), curX, headerY);
+				ctx.letterSpacing = '0px';
+			} else {
+				ctx.font = F(13, 800); ctx.fillStyle = '#ff4655';
+				ctx.fillText(pad2(i + 1), curX, headerY);
+				curX += ctx.measureText(pad2(i + 1)).width + 7 * sc;
+				ctx.font = F(11, 700); ctx.letterSpacing = (1.2 * sc) + 'px';
+				ctx.fillStyle = '#3a5060';
+				ctx.fillText('SLOT', curX, headerY);
+				ctx.letterSpacing = '0px';
 			}
-			const roleTextX = iconImg ? roleX + iconSize + 7 * sc : roleX;
-			ctx.font = F(11, 700);
-			ctx.fillStyle = rc ? rc.main : '#3a5060';
-			ctx.letterSpacing = (1.5 * sc) + 'px';
-			ctx.fillText(role ? role.toUpperCase() : 'SLOT ' + (i + 1), roleTextX, cardY + 29 * sc);
-			ctx.letterSpacing = '0px';
 
-			const borderOff = 1 * sc;
-			const textAreaH = 185 * sc;
-			const imgAreaY = cardY + textAreaH;
-			const imgAreaH = cardH - textAreaH;
-
+			const borderOff = 1 * sc, textAreaH = 185 * sc, imgAreaY = cardY + textAreaH, imgAreaH = cardH - textAreaH;
 			const entry = agent ? getAgentImg(agent) : null;
 			if (entry && entry.loaded) {
 				ctx.save();
-				rrect(ctx, cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff, { tl: 0, tr: 0, bl: 10 * sc, br: 10 * sc });
-				ctx.clip();
-
-				const src = entry.img;
-				const sw = src.naturalWidth, sh = src.naturalHeight;
-				const drawScale = Math.max(cardW / sw, imgAreaH / sh) * 1.05;
-				const dw = sw * drawScale, dh = sh * drawScale;
-				const dx = cx + (cardW - dw) / 2;
-				const dy = imgAreaY + (imgAreaH - dh) * 0.1;
-				ctx.drawImage(src, dx, dy, dw, dh);
-
-				const fadeH = imgAreaH * 0.45;
-				const fadeGrad = ctx.createLinearGradient(0, imgAreaY, 0, imgAreaY + fadeH);
-				fadeGrad.addColorStop(0, 'rgba(8, 12, 22, 0.92)');
-				fadeGrad.addColorStop(1, 'rgba(8, 12, 22, 0)');
-				ctx.fillStyle = fadeGrad;
-				ctx.fillRect(cx + borderOff, imgAreaY, cardW - borderOff * 2, fadeH);
-
+				rrect(ctx, cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff, { tl: 0, tr: 0, bl: 10 * sc, br: 10 * sc }); ctx.clip();
+				const src = entry.img, sw = src.naturalWidth, sh = src.naturalHeight;
+				const ds = Math.max(cardW / sw, imgAreaH / sh) * 1.05, dw = sw * ds, dh = sh * ds;
+				ctx.drawImage(src, cx + (cardW - dw) / 2, imgAreaY + (imgAreaH - dh) * 0.1, dw, dh);
+				const fg = ctx.createLinearGradient(0, imgAreaY, 0, imgAreaY + imgAreaH * 0.45);
+				fg.addColorStop(0, 'rgba(8,12,22,0.92)'); fg.addColorStop(1, 'rgba(8,12,22,0)');
+				ctx.fillStyle = fg; ctx.fillRect(cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH * 0.45);
 				if (rc) {
-					const botGrad = ctx.createLinearGradient(0, imgAreaY + imgAreaH - 60 * sc, 0, imgAreaY + imgAreaH);
-					botGrad.addColorStop(0, 'rgba(8, 12, 22, 0)');
-					botGrad.addColorStop(1, rc.main + '55');
-					ctx.fillStyle = botGrad;
-					ctx.fillRect(cx + borderOff, imgAreaY + imgAreaH - 60 * sc, cardW - borderOff * 2, 60 * sc);
+					const bg = ctx.createLinearGradient(0, imgAreaY + imgAreaH - 60 * sc, 0, imgAreaY + imgAreaH);
+					bg.addColorStop(0, 'rgba(8,12,22,0)'); bg.addColorStop(1, rc.main + '55');
+					ctx.fillStyle = bg; ctx.fillRect(cx + borderOff, imgAreaY + imgAreaH - 60 * sc, cardW - borderOff * 2, 60 * sc);
 				}
 				ctx.restore();
 			} else {
 				ctx.save();
-				rrect(ctx, cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff, { tl: 0, tr: 0, bl: 10 * sc, br: 10 * sc });
-				ctx.clip();
-				ctx.fillStyle = 'rgba(255, 255, 255, 0.015)';
-				ctx.fillRect(cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff);
+				rrect(ctx, cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff, { tl: 0, tr: 0, bl: 10 * sc, br: 10 * sc }); ctx.clip();
+				ctx.fillStyle = 'rgba(255,255,255,0.015)'; ctx.fillRect(cx + borderOff, imgAreaY, cardW - borderOff * 2, imgAreaH - borderOff);
 				if (!agent) {
-					ctx.font = F(40, 900);
-					ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-					ctx.textAlign = 'center';
-					ctx.fillText('?', cx + cardW / 2, imgAreaY + imgAreaH / 2 + 16 * sc);
-					ctx.textAlign = 'left';
+					ctx.font = F(40, 900); ctx.fillStyle = 'rgba(255,255,255,0.04)'; ctx.textAlign = 'center';
+					ctx.fillText('?', cx + cardW / 2, imgAreaY + imgAreaH / 2 + 16 * sc); ctx.textAlign = 'left';
 				}
 				ctx.restore();
 			}
 
-			if (agent) {
-				ctx.font = F(30, 800); ctx.fillStyle = '#ffffff';
-				ctx.fillText(agent, cx + 14 * sc, cardY + 110 * sc);
-			} else {
-				ctx.font = F(18, 400); ctx.fillStyle = '#253545';
-				ctx.fillText('미정', cx + 14 * sc, cardY + 110 * sc);
-			}
+			if (agent) { ctx.font = F(30, 800); ctx.fillStyle = '#ffffff'; ctx.fillText(agent, cx + 14 * sc, cardY + 110 * sc); }
+			else { ctx.font = F(18, 400); ctx.fillStyle = '#253545'; ctx.fillText('미정', cx + 14 * sc, cardY + 110 * sc); }
 
 			ctx.strokeStyle = rc ? rc.main : '#1e2d3d'; ctx.lineWidth = 0.8 * sc;
 			ctx.beginPath(); ctx.moveTo(cx + 14 * sc, cardY + 126 * sc); ctx.lineTo(cx + cardW - 14 * sc, cardY + 126 * sc); ctx.stroke();
 
-			if (player) {
-				ctx.font = F(20, 600); ctx.fillStyle = 'rgba(236, 232, 225, 0.8)';
-				ctx.fillText(player, cx + 14 * sc, cardY + 165 * sc);
-			} else {
-				ctx.font = F(15, 400); ctx.fillStyle = '#253545';
-				ctx.fillText('미배정', cx + 14 * sc, cardY + 165 * sc);
-			}
+			if (player) { ctx.font = F(20, 600); ctx.fillStyle = 'rgba(236,232,225,0.8)'; ctx.fillText(player, cx + 14 * sc, cardY + 153 * sc); }
+			else { ctx.font = F(15, 400); ctx.fillStyle = '#253545'; ctx.fillText('미배정', cx + 14 * sc, cardY + 153 * sc); }
 
-			ctx.font = F(36, 900);
-			ctx.fillStyle = rc ? rc.main + '33' : '#ffffff0a';
-			ctx.textAlign = 'right';
-			ctx.fillText(`0${i + 1}`, cx + cardW - 14 * sc, cardY + cardH - 16 * sc);
-			ctx.textAlign = 'left';
+			ctx.font = F(36, 900); ctx.fillStyle = rc ? rc.main + '33' : '#ffffff0a'; ctx.textAlign = 'right';
+			ctx.fillText(`0${i + 1}`, cx + cardW - 14 * sc, cardY + cardH - 16 * sc); ctx.textAlign = 'left';
 		}
 
-		ctx.font = F(10, 400); ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+		ctx.font = F(10, 400); ctx.fillStyle = 'rgba(255,255,255,0.12)';
 		ctx.fillText("© 2026 SIMSOOL. All rights reserved. | " + new Date().toLocaleDateString('ko-KR').slice(0, -1), W - 240 * sc, H - 10 * sc);
 	}
 
@@ -557,11 +778,9 @@
 	}
 
 	function renderAndExport() {
-		const hi = document.createElement('canvas');
-		draw(hi, 2);
+		const hi = document.createElement('canvas'); draw(hi, 2);
 		const a = document.createElement('a');
-		const mn = curMap || 'comp';
-		a.download = `valo_${mn}_${Date.now()}.png`;
+		a.download = `valo_${curMap || 'comp'}_${Date.now()}.png`;
 		a.href = hi.toDataURL('image/png'); a.click();
 		setStatus('PNG 저장 완료!'); setTimeout(() => setStatus(''), 2500);
 	}
