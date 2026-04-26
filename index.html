@@ -414,7 +414,7 @@
 
 	function loadRoleIcons() {
 		Object.entries(ROLE_ICONS).forEach(([role, url]) => {
-			const img = new Image();
+			const img = new Image(); img.crossOrigin = 'anonymous';
 			img.onload = () => { roleIconImgs[role] = img; renderPreview(); };
 			img.src = url;
 		});
@@ -653,10 +653,10 @@
 		if (mapImg) {
 			const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
 			const s2 = Math.max(W / iw, H / ih), dw = iw * s2, dh = ih * s2;
-			ctx.save(); ctx.globalAlpha = 0.45;
+			ctx.save(); ctx.globalAlpha = 0.7;
 			ctx.drawImage(mapImg, (W - dw) / 2, (H - dh) / 2, dw, dh); ctx.restore();
 			const grad = ctx.createLinearGradient(0, 0, 0, H);
-			grad.addColorStop(0, 'rgba(9,13,20,0.6)'); grad.addColorStop(0.4, 'rgba(9,13,20,0.2)'); grad.addColorStop(1, 'rgba(9,13,20,0.8)');
+			grad.addColorStop(0, 'rgba(9,13,20,0.3)'); grad.addColorStop(0.4, 'rgba(9,13,20,0.1)'); grad.addColorStop(1, 'rgba(9,13,20,0.5)');
 			ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 		}
 
@@ -778,11 +778,17 @@
 	}
 
 	function renderAndExport() {
-		const hi = document.createElement('canvas'); draw(hi, 2);
-		const a = document.createElement('a');
-		a.download = `valo_${curMap || 'comp'}_${Date.now()}.png`;
-		a.href = hi.toDataURL('image/png'); a.click();
-		setStatus('PNG 저장 완료!'); setTimeout(() => setStatus(''), 2500);
+		try {
+			const hi = document.createElement('canvas'); draw(hi, 2);
+			const a = document.createElement('a');
+			a.download = `valo_${curMap || 'comp'}_${Date.now()}.png`;
+			a.href = hi.toDataURL('image/png'); a.click();
+			setStatus('PNG 저장 완료!'); setTimeout(() => setStatus(''), 2500);
+		} catch (e) {
+			console.error(e);
+			setStatus('이미지 저장 실패 (보안 정책 문제일 수 있습니다)');
+			alert('이미지 저장에 실패했습니다. 이미지를 마우스 오른쪽 버튼으로 클릭하여 "다른 이름으로 저장"을 시도해보세요.');
+		}
 	}
 
 	loadRoleIcons(); loadPlayers(); rebuildSlots(); renderSavesList(); fetchAgentPortraits();
